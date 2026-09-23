@@ -2,7 +2,12 @@
 
 Use this demo script to test Kinflow and experience all **7 integrated Google Cloud and AI capabilities** in action. You can run these prompts either in the **Cloud Run Web Chat UI** or the local **ADK Developer Playground** (`uv run adk web . --port 8080 --reload_agents`).
 
+
+> 🌐 **Interactive Live Demo URL**: **[https://kinflow-frontend-935481315518.us-east1.run.app](https://kinflow-frontend-935481315518.us-east1.run.app)**  
+> No local setup needed! Open the live site and click any sticky note tile to test each capability directly.
+
 ---
+
 
 ## 📋 Quick Copy-Paste Prompts
 
