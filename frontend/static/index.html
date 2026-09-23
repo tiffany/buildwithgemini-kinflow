@@ -1,754 +1,790 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kinflow — Pediatric Care Coordination Co-Pilot</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-<style>
-  :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-light: #eef2ff;
-    --secondary: #0d9488;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --bg-app: #f8fafc;
-    --bg-card: #ffffff;
-    --border: #e2e8f0;
-    --border-focus: #818cf8;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Everyday Maestro & Kinflow — AI-powered coordination for the invisible work behind complex pediatric care." />
+  <title>Kinflow by Everyday Maestro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background: var(--bg-app);
-    color: var(--text-main);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-  }
+  <style>
+    :root {
+      --bg: #f8f9f7;
+      --ink: #1b1e20;
+      --muted: #6d7479;
+      --line: #e1e5e1;
+      --green: #2f6f63;
+      --green-dark: #24584e;
+      --cream: #fff8c9;
+      --blue: #e8f1ff;
+      --pink: #fde8e6;
+      --mint: #e5f4eb;
+      --lav: #eee9ff;
+      --sand: #f7ead8;
+    }
 
-  /* --- Header --- */
-  header {
-    background: #ffffff;
-    border-bottom: 1px solid var(--border);
-    padding: 0.85rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: var(--shadow-sm);
-    z-index: 10;
-  }
-  .brand-group {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-  }
-  .brand-logo {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #4f46e5, #06b6d4);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-  }
-  .brand-logo span { font-size: 24px; }
-  .brand-text h1 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--text-main);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .brand-text h1 .pill-tag {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    background: var(--primary-light);
-    color: var(--primary);
-    padding: 2px 7px;
-    border-radius: 999px;
-    letter-spacing: 0.05em;
-  }
-  .brand-text p {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-  .header-badges {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    background: #ecfdf5;
-    color: #065f46;
-    border: 1px solid #a7f3d0;
-  }
-  .pulse-dot {
-    width: 7px;
-    height: 7px;
-    background: #10b981;
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-    animation: pulse 1.8s infinite;
-  }
-  @keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-  }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; height: 100%; }
 
-  /* --- Main Container & Chat Log --- */
-  #main-wrap {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    position: relative;
-  }
-  #log {
-    flex: 1;
-    padding: 1.5rem;
-    max-width: 860px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
 
-  /* --- Welcome Hero Banner --- */
-  .hero-welcome {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.4rem;
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 0.5rem;
-  }
-  .hero-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.6rem;
-  }
-  .hero-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--primary-light);
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hero-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-main);
-  }
-  .hero-desc {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-  .chips-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
-  }
-  .chips-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .chip-btn {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.45rem 0.85rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #334155;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-  }
-  .chip-btn:hover {
-    background: var(--primary-light);
-    border-color: var(--border-focus);
-    color: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-  }
-  .chip-btn span { font-size: 16px; color: var(--primary); }
+    .page {
+      width: min(1380px, calc(100% - 44px));
+      height: 100vh;
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
 
-  /* --- Chat Messages --- */
-  .msg-row {
-    display: flex;
-    gap: 0.75rem;
-    width: 100%;
-    animation: fadeIn 0.25s ease-out;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .msg-row.user {
-    flex-direction: row-reverse;
-  }
-  .avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 18px;
-  }
-  .avatar.agent {
-    background: linear-gradient(135deg, #4f46e5, #06b6d4);
-    color: #ffffff;
-    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
-  }
-  .avatar.user {
-    background: #334155;
-    color: #ffffff;
-  }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0 16px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
 
-  .bubble-wrap {
-    max-width: 82%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  .msg-author {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    padding-left: 0.25rem;
-  }
-  .msg-row.user .msg-author {
-    text-align: right;
-    padding-right: 0.25rem;
-  }
-  .bubble {
-    padding: 0.85rem 1.15rem;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid var(--border);
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: var(--text-main);
-    box-shadow: var(--shadow-sm);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .msg-row.user .bubble {
-    background: linear-gradient(135deg, #4f46e5, #4338ca);
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-    border-bottom-right-radius: 4px;
-  }
-  .msg-row.agent .bubble {
-    border-bottom-left-radius: 4px;
-  }
-  /* Rich A2UI surface container */
-  .bubble.rich {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    max-width: 100%;
-    white-space: normal;
-  }
+    .brand-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
 
-  /* --- A2UI Card & Component Styles --- */
-  .a2card {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem;
-    box-shadow: var(--shadow-md);
-    margin-top: 0.4rem;
-    border-top: 4px solid var(--primary);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .a2card:hover {
-    box-shadow: var(--shadow-lg);
-  }
-  .a2card + .a2card, .a2col > .a2card {
-    margin-top: 0.75rem;
-  }
-  .a2col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .a2row {
-    display: flex;
-    flex-direction: row;
-    gap: 0.75rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .a2row.between {
-    justify-content: space-between;
-  }
-  .a2text {
-    margin: 0;
-    line-height: 1.5;
-    color: var(--text-main);
-  }
-  .a2text.a2-h1 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #1e1b4b;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.25rem;
-  }
-  .a2text.a2-h2 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #312e81;
-    margin-bottom: 0.25rem;
-  }
-  .a2text.a2-h3 {
-    font-size: 1.02rem;
-    font-weight: 600;
-    color: var(--text-main);
-  }
-  .a2text.a2-h4 {
-    font-size: 0.92rem;
-    font-weight: 600;
-  }
-  .a2text.a2-caption {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-  }
-  .a2divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0.6rem 0;
-    width: 100%;
-  }
-  .a2img {
-    max-width: 100%;
-    border-radius: 12px;
-    display: block;
-    margin: 0.5rem 0;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-  }
-  .material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-    font-size: 1.25rem;
-    line-height: 1;
-    vertical-align: middle;
-    color: var(--primary);
-  }
+    .brand {
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      text-decoration: none;
+    }
 
-  /* --- Typing / Thinking Indicator --- */
-  .typing-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0.5rem 0.75rem;
-  }
-  .typing-dot {
-    width: 6px;
-    height: 6px;
-    background: #94a3b8;
-    border-radius: 50%;
-    animation: typingBounce 1.4s infinite ease-in-out both;
-  }
-  .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-  .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-  @keyframes typingBounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
-  }
+    .brand-sub {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: -0.01em;
+    }
 
-  /* --- Input Bar --- */
-  #input-container {
-    background: #ffffff;
-    border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem 1.25rem 1.5rem;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.02);
-  }
-  #form {
-    max-width: 860px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0.75rem;
-    position: relative;
-  }
-  #input {
-    flex: 1;
-    padding: 0.85rem 1.15rem;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    background: #f8fafc;
-    color: var(--text-main);
-    outline: none;
-    transition: all 0.15s ease-in-out;
-  }
-  #input:focus {
-    background: #ffffff;
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-  }
-  #send-btn {
-    padding: 0.85rem 1.4rem;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #4f46e5, #4338ca);
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 0.92rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-    transition: all 0.15s ease-in-out;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  #send-btn:hover {
-    background: linear-gradient(135deg, #4338ca, #3730a3);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
-  }
-  #send-btn:active {
-    transform: translateY(0);
-  }
-  #send-btn .btn-icon {
-    font-size: 18px;
-    color: #fff;
-  }
-</style>
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+      background: var(--mint);
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(47, 111, 99, 0.15);
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 111, 99, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(47, 111, 99, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 111, 99, 0); }
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(460px, 1.15fr);
+      gap: 40px;
+      align-items: stretch;
+      padding: 24px 0 20px;
+      overflow: hidden;
+    }
+
+    /* --- Left Column: Everyday Maestro Narrative & Sticky Notes --- */
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-right: 12px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 3.2vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+      font-weight: 590;
+      color: var(--ink);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #5f666b;
+    }
+
+    .lead strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .kinflow-intro {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .kinflow-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+
+    .kinflow-copy {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    /* Sticky Notes Grid */
+    .sticky-section {
+      margin-top: 24px;
+    }
+
+    .sticky-header-note {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .sticky-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .sticky {
+      padding: 16px;
+      border: 1px solid rgba(23, 25, 27, .08);
+      box-shadow: 0 4px 14px rgba(20, 24, 22, .05);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      text-align: left;
+    }
+
+    .sticky:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(20, 24, 22, .09);
+    }
+
+    .sticky small {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+      font-weight: 750;
+      opacity: .6;
+    }
+
+    .sticky strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14.5px;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      font-weight: 650;
+      color: var(--ink);
+    }
+
+    .sticky p {
+      margin: 0;
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: rgba(23, 25, 27, .75);
+    }
+
+    .s1 { background: var(--cream); }
+    .s2 { background: var(--blue); }
+    .s3 { background: var(--pink); }
+    .s4 { background: var(--mint); }
+    .s5 { background: var(--lav); }
+    .s6 { background: var(--sand); }
+
+    .carry-banner {
+      margin-top: 16px;
+      background: var(--green);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 650;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+
+    /* --- Right Column: The Kinflow Live Agent Interface --- */
+    .right-col {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .chat-topbar {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafbfa;
+    }
+
+    .chat-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-hint {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    #log {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #ffffff;
+    }
+
+    /* Message Rows */
+    .msg-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .msg-row.user {
+      align-items: flex-end;
+    }
+
+    .msg-row.agent {
+      align-items: flex-start;
+    }
+
+    .msg-sender {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-left: 2px;
+    }
+
+    .msg-row.user .msg-sender {
+      margin-right: 2px;
+      color: var(--green);
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      max-width: 88%;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .msg-row.user .bubble {
+      background: var(--ink);
+      color: #ffffff;
+      border-bottom-right-radius: 2px;
+    }
+
+    .msg-row.agent .bubble {
+      background: var(--bg);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-bottom-left-radius: 2px;
+    }
+
+    .bubble.rich {
+      background: transparent;
+      border: none;
+      padding: 0;
+      max-width: 100%;
+      white-space: normal;
+    }
+
+    /* A2UI Surfaces */
+    .a2card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--green);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+      width: 100%;
+    }
+
+    .a2card + .a2card, .a2col > .a2card { margin-top: 10px; }
+    .a2col { display: flex; flex-direction: column; gap: 8px; }
+    .a2row { display: flex; flex-direction: row; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .a2row.between { justify-content: space-between; }
+    .a2text { margin: 0; line-height: 1.5; color: var(--ink); }
+    .a2text.a2-h1 { font-size: 17px; font-weight: 750; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 2px; }
+    .a2text.a2-h2 { font-size: 15px; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 2px; }
+    .a2text.a2-h3 { font-size: 13.5px; font-weight: 650; }
+    .a2text.a2-caption { font-size: 11.5px; color: var(--muted); }
+    .a2divider { border: none; border-top: 1px solid var(--line); margin: 8px 0; width: 100%; }
+    .a2img { max-width: 100%; border-radius: 6px; display: block; margin: 8px 0; border: 1px solid var(--line); }
+    .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-size: 16px; vertical-align: middle; color: var(--green); }
+
+    /* Typing Indicator */
+    .typing {
+      display: inline-flex;
+      gap: 4px;
+      padding: 6px 10px;
+    }
+    .dot {
+      width: 5px;
+      height: 5px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+    /* Input Bar */
+    .chat-bottom {
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+      background: #fafbfa;
+    }
+
+    #form {
+      display: flex;
+      gap: 10px;
+    }
+
+    #input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 13.5px;
+      background: #ffffff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    #input:focus {
+      border-color: var(--green);
+    }
+
+    #send-btn {
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      min-height: 40px;
+      padding: 0 18px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-size: 13px;
+      font-weight: 650;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    #send-btn:hover {
+      transform: translateY(-1px);
+      background: var(--green);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 980px) {
+      .page { height: auto; overflow: visible; }
+      main { grid-template-columns: 1fr; gap: 32px; overflow: visible; }
+      .right-col { height: 620px; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="page">
+    <header>
+      <div class="brand-wrap">
+        <a class="brand" href="#">Everyday Maestro</a>
+        <span class="brand-sub">/ Kinflow</span>
+      </div>
+      <div class="header-status">
+        <div class="pulse"></div>
+        Agent Engine &amp; RAG Connected
+      </div>
+    </header>
 
-<header>
-  <div class="brand-group">
-    <div class="brand-logo">
-      <span class="material-symbols-outlined">health_and_safety</span>
-    </div>
-    <div class="brand-text">
-      <h1>Kinflow <span class="pill-tag">ADK &amp; A2A</span></h1>
-      <p>Pediatric Complex Care Coordination Co-Pilot for Maya</p>
-    </div>
-  </div>
-  <div class="header-badges">
-    <div class="status-badge">
-      <div class="pulse-dot"></div>
-      Vertex AI Live
-    </div>
-  </div>
-</header>
+    <main>
+      <!-- Left: Everyday Maestro Facade & Sticky Prompts -->
+      <section class="left-col">
+        <div class="eyebrow">What if everyone had a house manager?</div>
+        <h1>What if the invisible work didn’t all live in your head?</h1>
 
-<div id="main-wrap">
-  <div id="log">
-    <!-- Hero Welcome Card -->
-    <div class="hero-welcome">
-      <div class="hero-header">
-        <div class="hero-icon">
-          <span class="material-symbols-outlined">smart_toy</span>
+        <p class="lead">
+          <strong>We’re building a house manager for everyday people.</strong>
+          It remembers the history, keeps track of what’s still open,
+          connects the moving pieces, and helps move things forward.
+        </p>
+
+        <div class="kinflow-intro">
+          <div class="kinflow-label">Starting with Kinflow</div>
+          <p class="kinflow-copy">Coordination for families managing complex pediatric care.</p>
         </div>
-        <div class="hero-title">Welcome to Kinflow</div>
-      </div>
-      <p class="hero-desc">
-        I assist families managing complex medical care. I coordinate appointments, track stuck referrals, prepare insurance claim appeals, check medication warnings, and access emergency seizure protocols with long-term memory.
-      </p>
-      <div class="chips-label">Quick Action Prompts (Click to Run):</div>
-      <div class="chips-grid">
-        <button class="chip-btn" data-prompt="Hello Kinflow! What care tasks and appointments are currently open for Maya?">
-          <span class="material-symbols-outlined">dashboard</span>
-          Care Action Board
-        </button>
-        <button class="chip-btn" data-prompt="What is the emergency rescue protocol if Maya's seizure lasts longer than 5 minutes?">
-          <span class="material-symbols-outlined">emergency</span>
-          Seizure Emergency Plan (RAG)
-        </button>
-        <button class="chip-btn" data-prompt="Can you look up Keppra in the FDA registry and show me what a 500mg pill looks like compared to a coin?">
-          <span class="material-symbols-outlined">medication</span>
-          Keppra FDA &amp; Pill Scale
-        </button>
-        <button class="chip-btn" data-prompt="Draft an insurance appeal letter for Maya's denied $1,450 MRI claim.">
-          <span class="material-symbols-outlined">receipt_long</span>
-          $1,450 MRI Denial Appeal
-        </button>
-        <button class="chip-btn" data-prompt="Look up Dr. Aris in neurology, find his practice address, and locate the nearest 24-hour pharmacy.">
-          <span class="material-symbols-outlined">local_hospital</span>
-          Doctor &amp; Pharmacy Finder
-        </button>
-        <button class="chip-btn" data-prompt="Maya has an ear infection. Can the urgent care doctor prescribe Augmentin?">
-          <span class="material-symbols-outlined">vaccines</span>
-          Allergy Check (Memory Bank)
-        </button>
-      </div>
-    </div>
+
+        <div class="sticky-section">
+          <div class="sticky-header-note">Click any tile to ask Kinflow:</div>
+          <div class="sticky-grid">
+            <article class="sticky s1" data-prompt="Hello Kinflow! What care tasks and appointments are currently open for Maya?">
+              <small>Next appointment</small>
+              <strong>What’s the agenda?</strong>
+              <p>Check open tasks, review neurology prep, and confirm who owns the next step.</p>
+            </article>
+
+            <article class="sticky s2" data-prompt="What is the emergency rescue protocol if Maya's seizure lasts longer than 5 minutes?">
+              <small>Emergency RAG</small>
+              <strong>When to rescue?</strong>
+              <p>Retrieve clinical pediatric seizure protocols and medication rescue dosage.</p>
+            </article>
+
+            <article class="sticky s3" data-prompt="Draft an insurance appeal letter for Maya's denied $1,450 MRI claim.">
+              <small>Bill &amp; Prior Auth</small>
+              <strong>Why was this denied?</strong>
+              <p>Generate a formal, cite-backed insurance appeal citing medical necessity.</p>
+            </article>
+
+            <article class="sticky s4" data-prompt="Can you look up Keppra in the FDA registry and show me what a 500mg pill looks like compared to a coin?">
+              <small>Medication &amp; Scale</small>
+              <strong>What does it look like?</strong>
+              <p>Query openFDA warnings and generate visual pill comparison against a US penny.</p>
+            </article>
+
+            <article class="sticky s5" data-prompt="Look up Dr. Aris in neurology, find his practice address, and locate the nearest 24-hour pharmacy.">
+              <small>Care Team &amp; Maps</small>
+              <strong>Where is the clinic?</strong>
+              <p>Look up doctor NPI registry credentials and nearby pharmacy coordinates.</p>
+            </article>
+
+            <article class="sticky s6" data-prompt="Maya has an ear infection. Can the urgent care doctor prescribe Augmentin?">
+              <small>Cross-Session Memory</small>
+              <strong>Check past allergies</strong>
+              <p>Verify Maya’s severe penicillin allergy from long-term Memory Bank.</p>
+            </article>
+          </div>
+
+          <div class="carry-banner">Keep the context. Carry the follow-through.</div>
+        </div>
+      </section>
+
+      <!-- Right: Live Interactive Kinflow Chat & A2UI Renderer -->
+      <section class="right-col">
+        <div class="chat-topbar">
+          <div class="chat-title">
+            <span class="material-symbols-outlined">health_and_safety</span>
+            Kinflow Co-Pilot
+          </div>
+          <div class="chat-hint">A2A Protocol • Vertex AI</div>
+        </div>
+
+        <div id="log">
+          <div class="msg-row agent">
+            <span class="msg-sender">Kinflow</span>
+            <div class="bubble">
+              Hello! I'm Kinflow, your care coordination co-pilot for Maya. Click any card on the left or ask me about appointments, stuck referrals, insurance appeals, or emergency protocols.
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-bottom">
+          <form id="form">
+            <input id="input" placeholder="Ask Kinflow about Maya's care, meds, or appeals…" autocomplete="off" autofocus>
+            <button id="send-btn" type="submit">Send</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Everyday Maestro</span>
+      <span>Less managing. More living.</span>
+    </footer>
   </div>
-</div>
 
-<div id="input-container">
-  <form id="form">
-    <input id="input" placeholder="Ask Kinflow about Maya's care, appointments, medications, or appeals…" autocomplete="off" autofocus>
-    <button id="send-btn" type="submit">
-      Send
-      <span class="material-symbols-outlined btn-icon">send</span>
-    </button>
-  </form>
-</div>
+  <script>
+    const log = document.getElementById("log");
+    const form = document.getElementById("form");
+    const input = document.getElementById("input");
 
-<script>
-const log = document.getElementById("log");
-const form = document.getElementById("form");
-const input = document.getElementById("input");
+    function el(tag, cls, text) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    }
 
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text != null) e.textContent = text;
-  return e;
-}
+    function bubble(who) {
+      const row = el("div", "msg-row " + who);
+      const sender = el("span", "msg-sender", who === "agent" ? "Kinflow" : "You");
+      const b = el("div", "bubble");
+      row.appendChild(sender);
+      row.appendChild(b);
+      log.appendChild(row);
+      log.scrollTop = log.scrollHeight;
+      return b;
+    }
 
-function bubble(who) {
-  const row = el("div", "msg-row " + who);
-  const avatar = el("div", "avatar " + who);
-  const icon = el("span", "material-symbols-outlined");
-  icon.textContent = who === "agent" ? "support_agent" : "person";
-  avatar.appendChild(icon);
-
-  const wrap = el("div", "bubble-wrap");
-  const author = el("div", "msg-author", who === "agent" ? "Kinflow Care Co-Pilot" : "You");
-  const b = el("div", "bubble");
-
-  wrap.appendChild(author);
-  wrap.appendChild(b);
-  row.appendChild(avatar);
-  row.appendChild(wrap);
-  log.appendChild(row);
-  log.parentElement.scrollTop = log.parentElement.scrollHeight;
-  return b;
-}
-
-function createTypingIndicator() {
-  const ind = el("div", "typing-indicator");
-  ind.appendChild(el("div", "typing-dot"));
-  ind.appendChild(el("div", "typing-dot"));
-  ind.appendChild(el("div", "typing-dot"));
-  return ind;
-}
-
-// A2UI mini-renderer (v0.8 Basic Catalog subset)
-function boundStr(v) {
-  if (v == null) return "";
-  if (typeof v === "string") return v;
-  if (typeof v.literalString === "string") return v.literalString;
-  return "";
-}
-
-function childIds(props) {
-  const ids = [];
-  if (props && typeof props.child === "string") ids.push(props.child);
-  const ch = props && props.children;
-  if (ch && Array.isArray(ch.explicitList)) {
-    for (const c of ch.explicitList) if (typeof c === "string") ids.push(c);
-  }
-  return ids;
-}
-
-function iconName(n) {
-  return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase();
-}
-
-function buildNode(id, comps, seen) {
-  if (!id || seen.has(id)) return null;
-  seen.add(id);
-  const spec = comps[id];
-  if (!spec || typeof spec !== "object") return null;
-  const type = Object.keys(spec)[0];
-  const props = spec[type] || {};
-  const kids = () => childIds(props).map(cid => buildNode(cid, comps, seen)).filter(Boolean);
-
-  switch (type) {
-    case "Card": {
-      const d = el("div", "a2card");
-      kids().forEach(n => d.appendChild(n));
+    function createTyping() {
+      const d = el("div", "typing");
+      d.appendChild(el("div", "dot"));
+      d.appendChild(el("div", "dot"));
+      d.appendChild(el("div", "dot"));
       return d;
     }
-    case "Column":
-    case "List": {
-      const horizontal = type === "List" && props.direction === "horizontal";
-      const d = el("div", horizontal ? "a2row" : "a2col");
-      kids().forEach(n => d.appendChild(n));
-      return d;
-    }
-    case "Row": {
-      const d = el("div", "a2row" + (props.distribution === "spaceBetween" ? " between" : ""));
-      kids().forEach(n => d.appendChild(n));
-      return d;
-    }
-    case "Text": {
-      const t = el("div", "a2text");
-      const hint = String(props.usageHint || "body").toLowerCase();
-      if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(hint)) t.classList.add("a2-" + hint);
-      else if (hint === "caption") t.classList.add("a2-caption");
-      t.textContent = boundStr(props.text);
-      return t;
-    }
-    case "Divider":
-      return el("hr", "a2divider");
-    case "Image": {
-      const src = boundStr(props.url || props.src);
-      if (!/^https?:\/\//i.test(src)) return null;
-      const img = el("img", "a2img");
-      img.src = src;
-      img.alt = boundStr(props.alt) || "";
-      return img;
-    }
-    case "Icon": {
-      const s = el("span", "material-symbols-outlined");
-      s.textContent = iconName(boundStr(props.name) || props.name);
-      return s;
-    }
-    default:
-      return null;
-  }
-}
 
-function renderSurface(messages, container) {
-  const comps = {};
-  const roots = [];
-  for (const m of messages) {
-    if (m.beginRendering && typeof m.beginRendering.root === "string") roots.push(m.beginRendering.root);
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) {
-      for (const c of su.components) {
-        if (c && c.id && c.component) comps[c.id] = c.component;
+    // A2UI mini-renderer
+    function boundStr(v) {
+      if (v == null) return "";
+      if (typeof v === "string") return v;
+      if (typeof v.literalString === "string") return v.literalString;
+      return "";
+    }
+
+    function childIds(props) {
+      const ids = [];
+      if (props && typeof props.child === "string") ids.push(props.child);
+      const ch = props && props.children;
+      if (ch && Array.isArray(ch.explicitList)) {
+        for (const c of ch.explicitList) if (typeof c === "string") ids.push(c);
       }
+      return ids;
     }
-  }
-  let rootIds = roots.filter(r => comps[r]);
-  if (rootIds.length === 0) {
-    const referenced = new Set();
-    for (const id in comps) {
+
+    function iconName(n) {
+      return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase();
+    }
+
+    function buildNode(id, comps, seen) {
+      if (!id || seen.has(id)) return null;
+      seen.add(id);
       const spec = comps[id];
-      childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c));
-    }
-    rootIds = Object.keys(comps).filter(id => !referenced.has(id));
-  }
-  let drew = false;
-  for (const rid of rootIds) {
-    const node = buildNode(rid, comps, new Set());
-    if (node) {
-      container.appendChild(node);
-      drew = true;
-    }
-  }
-  return drew;
-}
+      if (!spec || typeof spec !== "object") return null;
+      const type = Object.keys(spec)[0];
+      const props = spec[type] || {};
+      const kids = () => childIds(props).map(cid => buildNode(cid, comps, seen)).filter(Boolean);
 
-function flattenText(messages) {
-  const out = [];
-  for (const m of messages) {
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) {
-      for (const c of su.components) {
-        if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+      switch (type) {
+        case "Card": {
+          const d = el("div", "a2card");
+          kids().forEach(n => d.appendChild(n));
+          return d;
+        }
+        case "Column":
+        case "List": {
+          const horizontal = type === "List" && props.direction === "horizontal";
+          const d = el("div", horizontal ? "a2row" : "a2col");
+          kids().forEach(n => d.appendChild(n));
+          return d;
+        }
+        case "Row": {
+          const d = el("div", "a2row" + (props.distribution === "spaceBetween" ? " between" : ""));
+          kids().forEach(n => d.appendChild(n));
+          return d;
+        }
+        case "Text": {
+          const t = el("div", "a2text");
+          const hint = String(props.usageHint || "body").toLowerCase();
+          if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(hint)) t.classList.add("a2-" + hint);
+          else if (hint === "caption") t.classList.add("a2-caption");
+          t.textContent = boundStr(props.text);
+          return t;
+        }
+        case "Divider":
+          return el("hr", "a2divider");
+        case "Image": {
+          const src = boundStr(props.url || props.src);
+          if (!/^https?:\/\//i.test(src)) return null;
+          const img = el("img", "a2img");
+          img.src = src;
+          img.alt = boundStr(props.alt) || "";
+          return img;
+        }
+        case "Icon": {
+          const s = el("span", "material-symbols-outlined");
+          s.textContent = iconName(boundStr(props.name) || props.name);
+          return s;
+        }
+        default:
+          return null;
       }
     }
-  }
-  return out.join("\n").trim();
-}
 
-function renderReply(b, parts) {
-  b.textContent = "";
-  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
-  const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
-
-  const textStr = texts.join("\n").trim();
-  if (textStr) b.appendChild(el("div", null, textStr));
-
-  if (a2ui.length) {
-    b.classList.add("rich");
-    if (!renderSurface(a2ui, b)) {
-      b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+    function renderSurface(messages, container) {
+      const comps = {};
+      const roots = [];
+      for (const m of messages) {
+        if (m.beginRendering && typeof m.beginRendering.root === "string") roots.push(m.beginRendering.root);
+        const su = m.surfaceUpdate;
+        if (su && Array.isArray(su.components)) {
+          for (const c of su.components) {
+            if (c && c.id && c.component) comps[c.id] = c.component;
+          }
+        }
+      }
+      let rootIds = roots.filter(r => comps[r]);
+      if (rootIds.length === 0) {
+        const referenced = new Set();
+        for (const id in comps) {
+          const spec = comps[id];
+          childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c));
+        }
+        rootIds = Object.keys(comps).filter(id => !referenced.has(id));
+      }
+      let drew = false;
+      for (const rid of rootIds) {
+        const node = buildNode(rid, comps, new Set());
+        if (node) {
+          container.appendChild(node);
+          drew = true;
+        }
+      }
+      return drew;
     }
-  }
-  if (!b.childNodes.length) b.textContent = "(no response)";
-  log.parentElement.scrollTop = log.parentElement.scrollHeight;
-}
 
-async function sendMessage(text) {
-  if (!text) return;
-  bubble("user").textContent = text;
-  input.value = "";
-  const b = bubble("agent");
-  b.appendChild(createTypingIndicator());
-  try {
-    const res = await fetch("/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
+    function flattenText(messages) {
+      const out = [];
+      for (const m of messages) {
+        const su = m.surfaceUpdate;
+        if (su && Array.isArray(su.components)) {
+          for (const c of su.components) {
+            if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+          }
+        }
+      }
+      return out.join("\n").trim();
+    }
+
+    function renderReply(b, parts) {
+      b.textContent = "";
+      const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
+      const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
+
+      const textStr = texts.join("\n").trim();
+      if (textStr) b.appendChild(el("div", null, textStr));
+
+      if (a2ui.length) {
+        b.classList.add("rich");
+        if (!renderSurface(a2ui, b)) {
+          b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+        }
+      }
+      if (!b.childNodes.length) b.textContent = "(no response)";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function sendMessage(text) {
+      if (!text) return;
+      bubble("user").textContent = text;
+      input.value = "";
+      const b = bubble("agent");
+      b.appendChild(createTyping());
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+        const raw = await res.text();
+        let data;
+        try { data = JSON.parse(raw); }
+        catch { throw new Error(`Server returned non-JSON (HTTP ${res.status}). ${raw.slice(0, 300)}`); }
+        renderReply(b, data.parts || []);
+      } catch (e) {
+        b.textContent = "Error: " + e.message;
+      }
+    }
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const text = input.value.trim();
+      await sendMessage(text);
     });
-    const raw = await res.text();
-    let data;
-    try { data = JSON.parse(raw); }
-    catch { throw new Error(`Server returned non-JSON (HTTP ${res.status}). ${raw.slice(0, 300)}`); }
-    renderReply(b, data.parts || []);
-  } catch (e) {
-    b.textContent = "Error: " + e.message;
-  }
-}
 
-form.addEventListener("submit", async (ev) => {
-  ev.preventDefault();
-  const text = input.value.trim();
-  await sendMessage(text);
-});
-
-// Setup clickable quick chips
-document.querySelectorAll(".chip-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const prompt = btn.getAttribute("data-prompt");
-    if (prompt) sendMessage(prompt);
-  });
-});
-</script>
+    // Make sticky tiles clickable prompt triggers
+    document.querySelectorAll(".sticky").forEach(tile => {
+      tile.addEventListener("click", () => {
+        const prompt = tile.getAttribute("data-prompt");
+        if (prompt) sendMessage(prompt);
+      });
+    });
+  </script>
 </body>
 </html>
