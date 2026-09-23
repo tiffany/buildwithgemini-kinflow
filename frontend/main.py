@@ -179,10 +179,11 @@ async def chat(req: Request):
             context_id=_contexts.get(user_id),
         )
 
-        last_task = None
-        got_artifact_update = False
+        def _add_part(p_dict: dict):
+            if p_dict not in parts:
+                parts.append(p_dict)
+
         async for event in a2a_client.send_message(msg):
-            print(f"DEBUG EVENT: {type(event)} -> {repr(event)[:500]}")
             if isinstance(event, tuple):
                 task, update = event
             else:
@@ -195,21 +196,26 @@ async def chat(req: Request):
 
             if isinstance(update, TaskArtifactUpdateEvent):
                 got_artifact_update = True
-                parts.extend(_extract_parts(update.artifact.parts))
+                for p in _extract_parts(update.artifact.parts):
+                    _add_part(p)
             elif hasattr(update, "status") and getattr(update.status, "message", None):
                 msg_obj = update.status.message
                 if getattr(msg_obj, "parts", None):
-                    parts.extend(_extract_parts(msg_obj.parts))
+                    for p in _extract_parts(msg_obj.parts):
+                        _add_part(p)
             elif hasattr(update, "parts") and update.parts:
-                parts.extend(_extract_parts(update.parts))
+                for p in _extract_parts(update.parts):
+                    _add_part(p)
 
         # Fallbacks: pull parts from final task's status message or artifacts
         if not parts and last_task is not None:
             if hasattr(last_task, "status") and getattr(last_task.status, "message", None):
-                parts.extend(_extract_parts(last_task.status.message.parts))
+                for p in _extract_parts(last_task.status.message.parts):
+                    _add_part(p)
             if not parts:
                 for artifact in getattr(last_task, "artifacts", None) or []:
-                    parts.extend(_extract_parts(artifact.parts))
+                    for p in _extract_parts(artifact.parts):
+                        _add_part(p)
 
     if not parts:
         # The turn produced no text or UI (e.g. the agent only ran tools, or a

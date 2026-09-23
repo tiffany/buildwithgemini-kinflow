@@ -734,8 +734,19 @@
 
     function renderReply(b, parts) {
       b.textContent = "";
-      const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
-      const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
+      // Deduplicate parts to avoid duplicate cards/text
+      const seen = new Set();
+      const uniqueParts = [];
+      for (const p of parts) {
+        const key = JSON.stringify(p);
+        if (!seen.has(key)) {
+          seen.add(key);
+          uniqueParts.push(p);
+        }
+      }
+
+      const texts = uniqueParts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
+      const a2ui = uniqueParts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
 
       const textStr = texts.join("\n").trim();
       if (textStr) b.appendChild(el("div", null, textStr));
