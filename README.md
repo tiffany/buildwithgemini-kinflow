@@ -1,23 +1,79 @@
 # Kinflow: Care Coordination Agent for Families Managing Complex Care
 
-**Kinflow** is an intelligent, compassionate care coordination agent designed for families managing complex pediatric medical care. Built with the **Google Agent Development Kit (ADK)** and deployed on **Vertex AI Agent Engine**, Kinflow helps caregivers keep track of appointments, follow up on pending referrals, appeal denied insurance claims, and access critical clinical protocols and clinical information.
+**Kinflow** is an intelligent, compassionate care coordination agent designed for families managing complex pediatric medical care. Built with the **Google Agent Development Kit (ADK)** and deployed on **Vertex AI Agent Engine**, Kinflow helps caregivers track appointments, follow up on pending referrals, appeal denied insurance claims, and access critical clinical protocols.
+
+---
+
+## 💡 Why We Built Kinflow (The Problem & Caregiver Story)
+
+Caring for a child with complex medical needs (such as pediatric epilepsy, rare diseases, or developmental conditions) is often described by parents as a **demanding, unpaid full-time job**.
+
+### The Caregiver Burden:
+- **Fragmented Care Teams**: A single child often sees 5 to 10 specialists (neurologists, cardiologists, physical therapists) across different health systems that do not share medical records.
+- **Lost Referrals & Bureaucratic Stalls**: Referrals sit in fax queues for weeks. If parents don't proactively call clinics and insurers, consultations get delayed by months.
+- **Insurance Claim Denials**: Insurers routinely deny specialized tests (like MRIs or EEGs) as "not pre-authorized." Families face steep out-of-pocket bills unless they file a formal, cite-backed appeal within strict 30-day deadlines.
+- **High-Stakes Emergency Protocols**: In emergencies (e.g., a seizure lasting over 5 minutes), caregivers must act instantly. Panicked parents shouldn't have to scramble through paper binders or search generic websites for their child's rescue medication dosage.
+- **Cognitive Overload**: Parents must remember every medication change, past allergic reaction, and doctor's recommendation across years of care.
+
+### Our Mission:
+**Kinflow was built to lift this logistical burden off caregivers' shoulders.** By acting as an empathetic, context-aware co-pilot, Kinflow ensures no referral gets lost, no appeal deadline passes, allergies are always remembered, and clinical emergency protocols are instantly accessible.
+
+---
+
+## 🛠️ How It Was Built (Architecture & Technical Decisions)
+
+Kinflow is built on top of the **Google Agent Development Kit (ADK)** and integrates **7 core Google Cloud & AI services**:
+
+```
+                               ┌────────────────────────────────────────────────────────┐
+                               │           Caregiver Browser Interface                  │
+                               └───────────────────────────┬────────────────────────────┘
+                                                           │ HTTP / A2UI JSON
+                                                           ▼
+                               ┌────────────────────────────────────────────────────────┐
+                               │       Cloud Run Web Frontend (FastAPI A2A Proxy)       │
+                               └───────────────────────────┬────────────────────────────┘
+                                                           │ A2A Protocol (JSON-RPC)
+                                                           ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       Vertex AI Agent Runtime (kinflow)                                               │
+├─────────────────────────┬──────────────────────────┬──────────────────────────┬───────────────────────────────────────┤
+│    Vertex AI Memory     │   Vertex AI RAG Engine   │   Google Cloud Firestore │         Gemini Imagen & GCS           │
+│   • PreloadMemoryTool   │   • Serverless Corpus    │   • Care items & tasks   │   • gemini-3.1-flash-lite-image       │
+│   • Cross-session memory│   • Clinical protocols   │   • Real-time updates    │   • Cloud Storage public hosting      │
+│   • Allergy persistence │   • Insurance playbooks  │   • Prioritized backlog  │   • Visual pill-to-coin scaling       │
+├─────────────────────────┴──────────────────────────┴──────────────────────────┴───────────────────────────────────────┤
+│                                     External Healthcare & Geospatial APIs                                             │
+│   • openFDA API (Drug labels & warnings)                                                                              │
+│   • CMS NPPES NPI Registry (Verified doctor credentials & clinic taxonomy)                                           │
+│   • Google Maps Geocoding & Places APIs (Address coordinates & nearby pharmacy discovery)                            │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                        Adaptive Agent UI (A2UI v0.8)                                                  │
+│   • Structured card, column, and row schemas transforming raw agent responses into interactive UI surfaces          │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Architectural Choices:
+1. **Agent-to-Agent (A2A) Protocol**: Kinflow deploys as a modern A2A agent on Vertex AI Agent Runtime, communicating with our FastAPI proxy via structured JSON-RPC tasks and artifact updates.
+2. **Serverless RAG as a Function Tool**: Built-in retrieval declarations often conflict with custom tools in Gemini. We engineered the Vertex AI Serverless RAG Engine as a **plain Python function tool** (`consult_care_knowledge_base`), allowing seamless coexistence with Firestore, Maps, and FDA tools.
+3. **Persistent Memory Bank**: Using Vertex AI Memory Bank, Kinflow tracks long-term constraints (such as Maya's severe penicillin allergy) and recalls them across conversations to prevent dangerous medication suggestions.
+4. **Resilient A2UI Rendering**: The Cloud Run frontend includes a lightweight A2UI renderer that parses `beginRendering` and `surfaceUpdate` data parts, falling back to clean text if unexpected components are received.
 
 ---
 
 ## 🌟 What We Built & Connected
 
-Kinflow orchestrates **7 Google Cloud & AI capabilities** into a unified experience:
-
-1. **Vertex AI Agent Engine (Runtime)**: Deployed ADK agent serving requests over the **A2A (Agent-to-Agent) Protocol**.
-2. **Vertex AI Memory Bank**: Cross-session long-term memory remembering patient history, clinical alerts, and drug allergies across conversations.
-3. **Vertex AI Serverless RAG Engine**: Grounded semantic retrieval over clinical seizure emergency protocols and insurance appeal playbooks.
-4. **Google Cloud Firestore**: Real-time database for managing care action items, specialist appointments, and referral statuses.
-5. **Gemini Imagen Image Generation (`gemini-3.1-flash-lite-image`)**: Generates pill size and shape comparisons relative to a US penny, hosted on **Google Cloud Storage**.
+Kinflow connects:
+1. **Vertex AI Agent Engine (Runtime)**: Deployed ADK agent serving requests over the **A2A Protocol**.
+2. **Vertex AI Memory Bank**: Cross-session long-term memory remembering patient history and allergies.
+3. **Vertex AI Serverless RAG Engine**: Semantic retrieval over clinical seizure protocols and insurance playbooks.
+4. **Google Cloud Firestore**: Real-time database for care tasks, appointments, and referrals.
+5. **Gemini Imagen (`gemini-3.1-flash-lite-image`)**: Generates pill scale images relative to a US penny, hosted on **Google Cloud Storage**.
 6. **Healthcare & Geospatial Public APIs**:
-   - **openFDA API**: Live FDA drug labels, black-box warnings, and pediatric dosing.
-   - **CMS NPPES Registry**: Verification of doctor NPI numbers, medical specialties, and clinic addresses.
+   - **openFDA API**: Live FDA drug labels and warnings.
+   - **CMS NPPES Registry**: Verification of doctor NPI numbers and practice addresses.
    - **Google Maps API**: Geocoding and Nearby Places search for clinics and pharmacies.
-7. **Adaptive Agent UI (A2UI v0.8)**: Generates structured UI surfaces rendered natively in a custom **Cloud Run Web Chat Frontend**.
+7. **Adaptive Agent UI (A2UI v0.8)**: Interactive cards rendered natively in our Cloud Run web frontend.
 
 ---
 
@@ -87,29 +143,6 @@ To experience the full power of Kinflow and see each connected service in action
   Kinflow retrieves the denial details from Firestore (`get_care_item`), references the insurance appeal playbook from RAG, and generates a formal, cite-backed Appeal Letter with prior authorization references and medical necessity language.
 * **What You See**:
   A complete, ready-to-send appeal letter addressed to the insurer with claim numbers and medical justification.
-
----
-
-## 🏗️ Technical Architecture
-
-```
-                               ┌────────────────────────────────────────────────┐
-                               │           Browser Chat Interface               │
-                               └──────────────────────┬─────────────────────────┘
-                                                      │ HTTP / A2UI
-                                                      ▼
-                               ┌────────────────────────────────────────────────┐
-                               │         Cloud Run Frontend (FastAPI)           │
-                               └──────────────────────┬─────────────────────────┘
-                                                      │ A2A Protocol (JSON-RPC)
-                                                      ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   Vertex AI Agent Runtime (kinflow)                                     │
-├───────────────────┬───────────────────┬────────────────────┬────────────────────┬──────────────────────┤
-│    Memory Bank    │    RAG Engine     │   Cloud Storage    │  Firestore DB      │  External APIs       │
-│  (Cross-Session)  │   (Serverless)    │   (Pill Imagery)   │   (Care Tasks)     │  (Maps, FDA, NPPES)  │
-└───────────────────┴───────────────────┴────────────────────┴────────────────────┴──────────────────────┘
-```
 
 ---
 
