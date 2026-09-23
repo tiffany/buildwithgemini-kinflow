@@ -1,0 +1,29 @@
+# Pediatric Epilepsy Care Coordination & Emergency Action Protocol
+
+## Patient Care Baseline (Maya)
+- Primary Neurological Diagnosis: Pediatric focal epilepsy with secondary generalization.
+- Current Anti-Seizure Medications (ASM):
+  - Levetiracetam (Keppra): 500 mg oral tablet twice daily (morning and evening). Primary indication: seizure frequency reduction.
+  - Lamotrigine (Lamictal): 100 mg oral tablet once daily in the morning.
+- Critical Drug Sensitivities and Allergy History:
+  - Severe allergy: Penicillin (causes hives, wheezing, and facial angioedema).
+  - Food sensitivity: Moderate peanut sensitivity (strictly avoid peanut-derived flavorings or emulsifiers).
+
+## Seizure Emergency Protocol
+1. Acute Seizure Management (Tonic-Clonic or Focal Motor):
+   - Immediately place the child on their side in the recovery position to maintain airway patency.
+   - Cushion the head and remove glasses or tight clothing around the neck.
+   - Do NOT insert any object into the patient's mouth.
+   - Time the seizure carefully.
+2. Emergency Intervention Trigger (Status Epilepticus Risk):
+   - If seizure duration exceeds 5 minutes, or if two or more seizures occur without full recovery of consciousness between events:
+     - Administer prescribed rescue medication (Intranasal Midazolam or Rectal Diazepam) immediately.
+     - Call 911 / EMS emergency services without delay.
+3. Post-Ictal Monitoring:
+   - Monitor breathing and pulse. Child will experience fatigue, confusion, and temporary disorientation lasting 15 to 60 minutes.
+   - Record exact seizure start time, duration, physical characteristics (motor jerking, eye deviation, vocalizations), and notify Dr. Aris (Pediatric Neurology).
+
+## Medication Adherence & Titration Rules
+- Never discontinue Keppra or Lamictal abruptly due to high risk of rebound seizures or status epilepticus.
+- Routine blood monitoring: Periodic complete blood count (CBC) and liver function tests (LFTs) every 6 months during dual therapy.
+- Common adverse events requiring clinical assessment: Extreme somnolence, aggressive mood swings (irritability on Keppra), or new skin rash (immediate warning sign for Lamictal-induced Stevens-Johnson syndrome). If any rash appears, contact physician immediately.

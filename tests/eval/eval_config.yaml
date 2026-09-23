@@ -1,0 +1,23 @@
+metrics_to_run:
+  - agent_turn_count
+  - care_coordination_completeness
+
+custom_metrics:
+  - name: agent_turn_count
+    custom_function: |
+      def evaluate(instance):
+          turns = (instance.get("agent_data") or {}).get("turns", [])
+          return {'score': len(turns)}
+
+  - name: care_coordination_completeness
+    custom_function: |
+      def evaluate(instance):
+          # Checks whether the agent executed tools and produced events
+          turns = (instance.get("agent_data") or {}).get("turns", [])
+          if not turns:
+              return {'score': 0, 'explanation': 'No turns recorded'}
+          events = turns[0].get("events", [])
+          has_tool_call = any(e.get("function_call") or e.get("actions") for e in events)
+          has_content = any(e.get("content") for e in events)
+          score = 5 if (has_tool_call and has_content) else (4 if has_content else 1)
+          return {'score': score, 'explanation': f'Generated {len(events)} events with tool calls={has_tool_call}'}

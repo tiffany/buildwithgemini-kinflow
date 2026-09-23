@@ -1,0 +1,21 @@
+# Insurance Prior Authorization & Denial Appeal Playbook for Complex Pediatric Care
+
+## 1. Prior Authorization (PA) Management
+- Prior Authorization Requirement: Non-preferred second-line anti-seizure medications, sedated 3T brain MRIs, and specialized genetic testing panels routinely require prior authorization before service delivery.
+- Turnaround Standard: Urgent/expedited reviews must be resolved by commercial insurers within 72 hours; standard reviews take up to 14 calendar days.
+- Key Elements of a Successful PA Submission:
+  - Letter of Medical Necessity signed by the attending specialist (e.g. Dr. Aris, Pediatric Neurology).
+  - Comprehensive clinical treatment history documenting failure or intolerance to first-line therapeutic agents (step therapy bypass).
+  - Relevant diagnostic logs: EEG seizure frequency tracking, video EEG recordings, and high-resolution neuroimaging findings.
+
+## 2. Challenging Insurance Claim Denials
+- Step 1: Request the Detailed Adverse Benefit Determination Notice. Identify the exact denial code (e.g., "Experimental/Investigational", "Not Medically Necessary", or "Out of Network Provider").
+- Step 2: Internal Level 1 Appeal:
+  - Strict submission deadline: Must be filed within 180 calendar days of receiving the formal written denial.
+  - Required package: Formal appeal letter citing peer-reviewed neurological guidelines (AAN/AES), peer-to-peer physician conference request, and clinic visit notes.
+  - Insurer response deadline: Within 30 days for standard post-service claims, or 72 hours for urgent active treatment.
+- Step 3: Peer-to-Peer Clinical Review:
+  - Schedule a peer-to-peer discussion directly between the treating physician and the insurer's medical director.
+  - Focus points: Emphasize pediatric patient fragility, contraindications to alternative drugs, and safety risks of delaying specialized care.
+- Step 4: External Independent Medical Review (IMR):
+  - If the internal appeal is upheld/denied, file an expedited External Review through the state Department of Managed Health Care or Insurance Commissioner. External review decisions are binding on the insurer.

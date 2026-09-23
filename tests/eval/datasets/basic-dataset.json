@@ -1,0 +1,25 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "care_overview",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Hello Kinflow, can you give me a summary of what care tasks are currently open for Maya?"}]
+      }
+    },
+    {
+      "eval_case_id": "epilepsy_emergency",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "What is the emergency protocol if Maya's seizure lasts longer than 5 minutes?"}]
+      }
+    },
+    {
+      "eval_case_id": "medication_lookup",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "What is Keppra prescribed for, and what are common side effects to watch out for?"}]
+      }
+    }
+  ]
+}
