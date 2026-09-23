@@ -3,8 +3,11 @@
 **Kinflow** is an intelligent, compassionate care coordination agent designed for families managing complex pediatric medical care. Built with the **Google Agent Development Kit (ADK)** and deployed on **Vertex AI Agent Engine**, Kinflow helps caregivers track appointments, follow up on pending referrals, appeal denied insurance claims, and access critical clinical protocols.
 
 
-> 🚀 **Live Demo Site**: **[https://demo.everydaymaestro.com (or https://tiffany.github.io/buildwithgemini-kinflow/)](https://demo.everydaymaestro.com (or https://tiffany.github.io/buildwithgemini-kinflow/))**  
-> Experience Kinflow with the *Everyday Maestro* facade, interactive sticky note prompts, and real-time A2UI card rendering deployed live on Cloud Run.
+
+> 🚀 **Live Interactive Demo Sites**:  
+> • **Full Cloud Run Agent (Live Gemini & RAG Backend)**: **[https://kinflow-frontend-935481315518.us-east1.run.app](https://kinflow-frontend-935481315518.us-east1.run.app)**  
+> • **Permanent GitHub Pages Demo**: **[https://tiffany.github.io/buildwithgemini-kinflow/](https://tiffany.github.io/buildwithgemini-kinflow/)**  
+> Experience Kinflow with the *Everyday Maestro* facade, interactive sticky note prompts, and real-time A2UI card rendering.
 
 ---
 
